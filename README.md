@@ -27,6 +27,18 @@ A small Rails service to simulate invoice generation for overdue Bill of Ladings
 
 ---
 
+### 🧱 Ruby Version
+
+This project requires **Ruby 3.3.5**. You can install it using a version manager like [`rbenv`](https://github.com/rbenv/rbenv) or [`asdf`](https://asdf-vm.com/).
+
+```bash
+# Example using rbenv
+rbenv install 3.3.5
+rbenv local 3.3.5
+```
+
+---
+
 ## 🧪 Running Tests
 
 Run the full test suite using RSpec:
