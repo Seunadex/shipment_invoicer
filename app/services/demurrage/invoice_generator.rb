@@ -8,6 +8,7 @@ module Demurrage
       return invoices if overdue_bills.empty?
 
       overdue_bills.each do |bl|
+        next unless bl.refundable?
         next if bl.invoices.unpaid.exists?
 
         container_count = bl.container_count

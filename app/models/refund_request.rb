@@ -56,5 +56,5 @@ class RefundRequest < ApplicationRecord
   validates :deduction, length: { maximum: 15 }
   validates :status, presence: true, length: { maximum: 10 }
 
-  enum status: { pending: "PENDING", processed: "PROCESSED", rejected: "REJECTED" }
+  enum status: { pending: "PENDING", approved: "APPROVED", rejected: "REJECTED" }
 end
