@@ -15,6 +15,12 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :api do
+    namespace :invoices do
+      post :generate_overdue, to: "generation#create"
+    end
+  end
+
   # Defines the root path route ("/")
   # root "posts#index"
 end

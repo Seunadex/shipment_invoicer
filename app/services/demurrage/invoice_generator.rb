@@ -6,7 +6,6 @@ module Demurrage
       invoices = []
       overdue_bills = BillOfLading.overdue_today
       return invoices if overdue_bills.empty?
-      # binding.pry
 
       overdue_bills.each do |bl|
         next if bl.invoices.unpaid.exists?
