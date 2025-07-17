@@ -12,7 +12,7 @@ RSpec.describe RefundRequest, type: :model do
   end
 
   describe "associations" do
-    it { is_expected.to belong_to(:bill_of_lading).class_name("BillOfLading").with_foreign_key("numero_bl") }
+    it { is_expected.to belong_to(:bill_of_lading).class_name("BillOfLading").with_foreign_key("number") }
     it { is_expected.to belong_to(:customer).class_name("Customer").with_foreign_key("consignee_code") }
   end
 end

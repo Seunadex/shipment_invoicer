@@ -12,7 +12,7 @@ RSpec.describe Customer, type: :model do
   end
 
   describe "associations" do
-    it { is_expected.to have_many(:bills_of_lading).class_name("BillOfLading").with_foreign_key("id_client") }
+    it { is_expected.to have_many(:bills_of_lading).class_name("BillOfLading").with_foreign_key("customer_id") }
     it { is_expected.to have_many(:invoices).through(:bills_of_lading).source(:invoices) }
     it { is_expected.to have_many(:refund_requests).through(:bills_of_lading).source(:refund_requests) }
   end

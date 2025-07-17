@@ -12,8 +12,8 @@ RSpec.describe BillOfLading, type: :model do
   end
 
   describe "associations" do
-    it { is_expected.to belong_to(:customer).class_name("Customer").with_foreign_key("id_client") }
-    it { is_expected.to have_many(:invoices).class_name("Invoice").with_foreign_key("numero_bl") }
-    it { is_expected.to have_many(:refund_requests).class_name("RefundRequest").with_foreign_key("numero_bl") }
+    it { is_expected.to belong_to(:customer).class_name("Customer").with_foreign_key("customer_id") }
+    it { is_expected.to have_many(:invoices).class_name("Invoice").with_foreign_key("number") }
+    it { is_expected.to have_many(:refund_requests).class_name("RefundRequest").with_foreign_key("number") }
   end
 end
