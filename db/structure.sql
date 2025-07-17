@@ -111,7 +111,7 @@ DROP TABLE IF EXISTS `factures`;
 CREATE TABLE `factures` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `reference` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `numero_bl` varchar(9) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `numero_bl` varchar(9) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `code_client` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
   `nom_client` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL,
   `montant_facture` decimal(12,0) NOT NULL,
@@ -129,7 +129,8 @@ CREATE TABLE `factures` (
   KEY `index_factures_on_numero_bl` (`numero_bl`),
   KEY `index_factures_on_code_client` (`code_client`),
   KEY `index_factures_on_statut` (`statut`),
-  KEY `index_factures_on_date_facture` (`date_facture`)
+  KEY `index_factures_on_date_facture` (`date_facture`),
+  CONSTRAINT `fk_factures_numero_bl` FOREIGN KEY (`numero_bl`) REFERENCES `bls` (`numero_bl`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `remboursements`;
@@ -203,5 +204,6 @@ CREATE TABLE `schema_migrations` (
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 INSERT INTO `schema_migrations` (version) VALUES
+('20250717064403'),
 ('0');
 
