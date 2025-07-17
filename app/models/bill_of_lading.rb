@@ -77,6 +77,8 @@ class BillOfLading < ApplicationRecord
   def refundable?
     return false if exempt || blocked_for_refund
 
+    return true if refund_requests.none?
+
     refund_requests.any? { |rr| rr.status != "REJECTED" }
   end
 end

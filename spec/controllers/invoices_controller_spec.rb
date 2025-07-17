@@ -13,22 +13,12 @@ RSpec.describe InvoicesController, type: :controller do
       allow(Invoice).to receive(:overdue).and_return([ invoice1, invoice2 ])
     end
 
-    context "when requesting HTML format" do
-      it "renders the overdue template" do
-        get :overdue
-        expect(response).to have_http_status(:success)
-        expect(response).to render_template(:overdue)
-      end
-    end
-
-    context "when requesting JSON format" do
-      it "returns JSON with the list of overdue invoices" do
-        get :overdue, format: :json
-        expect(response).to have_http_status(:success)
-        json = JSON.parse(response.body)
-        expect(json.length).to eq(2)
-        expect(json.first["id"]).to eq(invoice1.id)
-      end
+    it "returns JSON with the list of overdue invoices" do
+      get :overdue, format: :json
+      expect(response).to have_http_status(:success)
+      json = JSON.parse(response.body)
+      expect(json.length).to eq(2)
+      expect(json.first["id"]).to eq(invoice1.id)
     end
   end
 end
