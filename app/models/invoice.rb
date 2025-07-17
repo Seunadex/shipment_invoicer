@@ -37,4 +37,6 @@ class Invoice < ApplicationRecord
   validates :invoice_date, presence: true
 
   enum status: { init: "init", paid: "paid" }
+
+  scope :unpaid, -> { where(status: "init") }
 end

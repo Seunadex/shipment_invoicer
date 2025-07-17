@@ -49,16 +49,24 @@
 #
 FactoryBot.define do
   factory :bill_of_lading do
-    # bol_number { "BOL#{Faker::Number.unique.number(digits: 8)}" }
-    # shipper_name { Faker::Company.name }
-    # consignee_name { Faker::Company.name }
-    # origin_port { Faker::Address.city }
-    # destination_port { Faker::Address.city }
-    # vessel_name { Faker::Lorem.word }
-    # voyage_number { Faker::Number.number(digits: 4) }
-    # cargo_details { Faker::Commerce.product_name }
-    # gross_weight { Faker::Number.decimal(l_digits: 2, r_digits: 2) }
-    # created_at { Time.current }
-    # updated_at { Time.current }
+    sequence(:number) { |n| "BL#{n.to_s.rjust(7, '0')}" }
+    association :customer
+    vessel_name { Faker::Lorem.word.upcase }
+    vessel_voyage { "VY#{rand(10..99)}" }
+    arrival_date { Faker::Date.backward(days: rand(5..20)) }
+    freetime { rand(5..10) }
+    quantity_dry_20ft { rand(0..5) }
+    quantity_dry_40ft { rand(0..5) }
+    quantity_refrigerated_20ft { rand(0..3) }
+    quantity_refrigerated_40ft { rand(0..3) }
+    quantity_special_20ft { rand(0..2) }
+    quantity_special_40ft { rand(0..2) }
+    status { %w[pending cleared].sample }
+
+    trait :overdue do
+      arrival_date { Date.yesterday }
+      freetime { 1 }
+      status { "pending" }
+    end
   end
 end

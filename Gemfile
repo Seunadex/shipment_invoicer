@@ -33,6 +33,7 @@ group :development, :test do
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
   gem "rspec-rails", "~> 8.0"
   gem "faker", "~> 3.4", ">= 3.4.2"
+  gem "pry"
 
   # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
   gem "brakeman", require: false

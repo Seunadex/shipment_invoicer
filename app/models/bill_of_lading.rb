@@ -63,4 +63,14 @@ class BillOfLading < ApplicationRecord
   validates :arrival_date, presence: true
 
   enum status: { pending: 0, cleared: 1 }
+
+  scope :overdue_today, -> {
+    where("DATE(arrival_date + INTERVAL freetime DAY) = ?", Date.current)
+  }
+
+  def container_count
+    %i[quantity_dry_20ft quantity_dry_40ft quantity_refrigerated_20ft quantity_refrigerated_40ft quantity_special_20ft quantity_special_40ft].sum do |quantity|
+      self[quantity].to_i || 0
+    end
+  end
 end

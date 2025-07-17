@@ -42,19 +42,37 @@
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #
-class RefundRequest < ApplicationRecord
-  self.table_name = "remboursements"
 
-  # Associations
-  belongs_to :bill_of_lading, class_name: "BillOfLading", foreign_key: "number", primary_key: "number"
-  belongs_to :customer, class_name: "Customer", foreign_key: "consignee_code", primary_key: "client_code"
 
-  # Validations
-  validates :number, presence: true, length: { maximum: 9 }
-  validates :requested_amount, length: { maximum: 15 }
-  validates :refund_amount, length: { maximum: 15 }
-  validates :deduction, length: { maximum: 15 }
-  validates :status, presence: true, length: { maximum: 10 }
-
-  enum status: { pending: "PENDING", processed: "PROCESSED", rejected: "REJECTED" }
+FactoryBot.define do
+  factory :refund_request do
+    sequence(:number) { |n| "RF#{n.to_s.rjust(9, '0')}" }
+    requested_amount { Faker::Commerce.price(range: 100.0..10000.0, as_string: true) }
+    refund_amount { requested_amount }
+    deduction { "0.00" }
+    status { "pending" }
+    association :transitaire, factory: :customer
+    transitaire_notifie { false }
+    maison_notifie { false }
+    banque_notifie { false }
+    date_demande { Faker::Date.backward(days: rand(1..30)) }
+    type_paiement { "bank_transfer" }
+    pret { "no" }
+    soumis { "no" }
+    consignee_code { Faker::Alphanumeric.alphanumeric(number: 14).upcase }
+    refund_party_name { Faker::Company.name }
+    beneficiaire { Faker::Name.name }
+    deposit_amount { Faker::Commerce.price(range: 50.0..5000.0, as_string: true) }
+    refund_reason { Faker::Lorem.sentence(word_count: 10) }
+    remarks { Faker::Lorem.sentence(word_count: 15) }
+    co_code { Faker::Alphanumeric.alphanumeric(number: 20).upcase }
+    zm_doc_no { nil }
+    gl_posting_doc { nil }
+    clearing_doc { nil }
+    email_address { Faker::Internet.email }
+    type_depotage { "standard" }
+    accord_client { [true, false].sample }
+    comment { Faker::Lorem.paragraph(sentence_count: 2) }
+    reference { Faker::Alphanumeric.alphanumeric(number: 30).upcase }
+  end
 end

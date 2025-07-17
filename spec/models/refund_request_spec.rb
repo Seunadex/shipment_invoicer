@@ -7,7 +7,7 @@
 #  requested_amount      :string(15)
 #  refund_amount         :string(15)
 #  deduction             :string(15)
-#  status                :string(10)       default("PENDING")
+#  status                :string(10)       default("pending")
 #  id_transitaire        :bigint           not null
 #  id_transitaire_maison :bigint
 #  transitaire_notifie   :boolean
@@ -67,6 +67,5 @@ RSpec.describe RefundRequest, type: :model do
     it { is_expected.to validate_length_of(:requested_amount).is_at_most(15) }
     it { is_expected.to validate_length_of(:refund_amount).is_at_most(15) }
     it { is_expected.to validate_length_of(:deduction).is_at_most(15) }
-
   end
 end

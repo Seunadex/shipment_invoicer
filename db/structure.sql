@@ -76,8 +76,9 @@ CREATE TABLE `bls` (
   KEY `index_bls_on_reef` (`reef`),
   KEY `index_bls_on_customer_id` (`customer_id`),
   KEY `index_bls_on_status` (`status`),
+  KEY `index_bls_on_arrival_date_and_freetime` (`arrival_date`,`freetime`),
   CONSTRAINT `fk_bls_customer_id` FOREIGN KEY (`customer_id`) REFERENCES `clients` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `clients`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -103,7 +104,7 @@ CREATE TABLE `clients` (
   UNIQUE KEY `index_clients_on_client_code` (`client_code`),
   KEY `index_clients_on_name` (`name`),
   KEY `index_clients_on_status` (`status`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `factures`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -131,7 +132,7 @@ CREATE TABLE `factures` (
   KEY `index_factures_on_status` (`status`),
   KEY `index_factures_on_invoice_date` (`invoice_date`),
   CONSTRAINT `fk_factures_number` FOREIGN KEY (`number`) REFERENCES `bls` (`number`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `remboursements`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -204,6 +205,7 @@ CREATE TABLE `schema_migrations` (
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 INSERT INTO `schema_migrations` (version) VALUES
+('20250717122351'),
 ('20250717090258'),
 ('20250717064403'),
 ('0');
