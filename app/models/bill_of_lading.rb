@@ -54,4 +54,13 @@ class BillOfLading < ApplicationRecord
   belongs_to :customer, class_name: "Customer", foreign_key: "customer_id", primary_key: "id"
   has_many :invoices, class_name: "Invoice", foreign_key: "number", primary_key: "number"
   has_many :refund_requests, class_name: "RefundRequest", foreign_key: "number", primary_key: "number"
+
+  # Validations
+  validates :number, presence: true, length: { maximum: 9 }
+  validates :customer_id, presence: true
+  validates :consignee_code, length: { maximum: 20 }
+  validates :consignee_name, length: { maximum: 60 }
+  validates :arrival_date, presence: true
+
+  enum status: { pending: 0, cleared: 1 }
 end

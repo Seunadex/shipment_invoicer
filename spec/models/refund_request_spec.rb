@@ -59,4 +59,14 @@ RSpec.describe RefundRequest, type: :model do
     it { is_expected.to belong_to(:bill_of_lading).class_name("BillOfLading").with_foreign_key("number") }
     it { is_expected.to belong_to(:customer).class_name("Customer").with_foreign_key("consignee_code") }
   end
+
+  describe "validations" do
+    it { is_expected.to validate_presence_of(:number) }
+    it { is_expected.to validate_length_of(:number).is_at_most(9) }
+
+    it { is_expected.to validate_length_of(:requested_amount).is_at_most(15) }
+    it { is_expected.to validate_length_of(:refund_amount).is_at_most(15) }
+    it { is_expected.to validate_length_of(:deduction).is_at_most(15) }
+
+  end
 end

@@ -24,4 +24,17 @@ class Invoice < ApplicationRecord
   # Associations
   belongs_to :bill_of_lading, class_name: "BillOfLading", foreign_key: "number", primary_key: "number"
   belongs_to :customer, class_name: "Customer", foreign_key: "client_code", primary_key: "client_code"
+
+  # Validations
+  validates :reference, presence: true, length: { maximum: 10 }
+  validates :number, presence: true, length: { maximum: 9 }
+  validates :client_code, presence: true, length: { maximum: 20 }
+  validates :client_name, presence: true, length: { maximum: 60 }
+  validates :amount, presence: true
+  validates :original_amount, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
+  validates :currency, length: { maximum: 6 }
+  validates :status, presence: true, length: { maximum: 10 }
+  validates :invoice_date, presence: true
+
+  enum status: { init: "init", paid: "paid" }
 end

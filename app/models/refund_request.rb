@@ -48,4 +48,13 @@ class RefundRequest < ApplicationRecord
   # Associations
   belongs_to :bill_of_lading, class_name: "BillOfLading", foreign_key: "number", primary_key: "number"
   belongs_to :customer, class_name: "Customer", foreign_key: "consignee_code", primary_key: "client_code"
+
+  # Validations
+  validates :number, presence: true, length: { maximum: 9 }
+  validates :requested_amount, length: { maximum: 15 }
+  validates :refund_amount, length: { maximum: 15 }
+  validates :deduction, length: { maximum: 15 }
+  validates :status, presence: true, length: { maximum: 10 }
+
+  enum status: { pending: "PENDING", processed: "PROCESSED", rejected: "REJECTED" }
 end

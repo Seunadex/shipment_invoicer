@@ -37,4 +37,14 @@ RSpec.describe Customer, type: :model do
     it { is_expected.to have_many(:invoices).through(:bills_of_lading).source(:invoices) }
     it { is_expected.to have_many(:refund_requests).through(:bills_of_lading).source(:refund_requests) }
   end
+
+  describe "validations" do
+    it { is_expected.to validate_presence_of(:name) }
+    it { is_expected.to validate_length_of(:name).is_at_most(60) }
+
+    it { is_expected.to validate_presence_of(:group_name) }
+    it { is_expected.to validate_length_of(:group_name).is_at_most(150) }
+
+    it { is_expected.to validate_length_of(:client_code).is_at_most(20) }
+  end
 end

@@ -35,4 +35,25 @@ RSpec.describe Invoice, type: :model do
     it { is_expected.to belong_to(:bill_of_lading).class_name("BillOfLading").with_foreign_key("number") }
     it { is_expected.to belong_to(:customer).class_name("Customer").with_foreign_key("client_code") }
   end
+
+  describe "validations" do
+    it { is_expected.to validate_presence_of(:reference) }
+    it { is_expected.to validate_length_of(:reference).is_at_most(10) }
+
+    it { is_expected.to validate_presence_of(:number) }
+    it { is_expected.to validate_length_of(:number).is_at_most(9) }
+
+    it { is_expected.to validate_presence_of(:client_code) }
+    it { is_expected.to validate_length_of(:client_code).is_at_most(20) }
+
+    it { is_expected.to validate_presence_of(:client_name) }
+    it { is_expected.to validate_length_of(:client_name).is_at_most(60) }
+
+    it { is_expected.to validate_presence_of(:amount) }
+    it { is_expected.to validate_numericality_of(:original_amount).is_greater_than_or_equal_to(0).allow_nil }
+
+    it { is_expected.to validate_length_of(:currency).is_at_most(6) }
+
+    it { is_expected.to validate_presence_of(:invoice_date) }
+  end
 end

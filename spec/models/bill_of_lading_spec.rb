@@ -65,4 +65,14 @@ RSpec.describe BillOfLading, type: :model do
     it { is_expected.to have_many(:invoices).class_name("Invoice").with_foreign_key("number") }
     it { is_expected.to have_many(:refund_requests).class_name("RefundRequest").with_foreign_key("number") }
   end
+
+  describe "validations" do
+    it { is_expected.to validate_presence_of(:number) }
+    it { is_expected.to validate_length_of(:number).is_at_most(9) }
+
+    it { is_expected.to validate_presence_of(:customer_id) }
+    it { is_expected.to validate_length_of(:consignee_code).is_at_most(20) }
+    it { is_expected.to validate_length_of(:consignee_name).is_at_most(60) }
+    it { is_expected.to validate_presence_of(:arrival_date) }
+  end
 end
