@@ -21,9 +21,10 @@
 
 FactoryBot.define do
   factory :invoice do
-    sequence(:reference) { |n| "INV#{n.to_s.rjust(10, '0')}" }
+    sequence(:reference) { |n| "INV#{n.to_s.rjust(7, '0')}" }
     sequence(:number) { |n| "INV#{n.to_s.rjust(9, '0')}" }
     association :customer, factory: :customer
+    association :bill_of_lading, factory: :bill_of_lading
     client_code { customer.client_code }
     client_name { customer.name }
     amount { Faker::Commerce.price(range: 100.0..10000.0, as_string: true) }
@@ -31,6 +32,7 @@ FactoryBot.define do
     currency { "XOF" }
     status { "init" }
     invoice_date { Faker::Date.backward(days: rand(1..30)) }
+    user_id { 1 } # Assuming a default user ID for simplicity
 
     trait :paid do
       status { "paid" }

@@ -1,0 +1,25 @@
+<h1>Overdue Invoices</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Reference</th>
+      <th>BL Number</th>
+      <th>Client Code</th>
+      <th>Amount</th>
+      <th>Status</th>
+      <th>Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @overdue_invoices.each do |invoice| %>
+      <tr>
+        <td><%= invoice.reference %></td>
+        <td><%= invoice.number %></td>
+        <td><%= invoice.client_code %></td>
+        <td><%= invoice.amount %></td>
+        <td><%= invoice.status %></td>
+        <td><%= invoice.invoice_date.to_date %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

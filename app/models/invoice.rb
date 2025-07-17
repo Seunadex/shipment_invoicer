@@ -39,4 +39,7 @@ class Invoice < ApplicationRecord
   enum status: { init: "init", paid: "paid" }
 
   scope :unpaid, -> { where(status: "init") }
+  scope :overdue, -> {
+    where("invoice_date < ? AND status = ?", Date.today, "init")
+  }
 end

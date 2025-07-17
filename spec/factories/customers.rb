@@ -32,7 +32,7 @@ FactoryBot.define do
     freetime_dry { rand(5..15) }
     priority { [ true, false ].sample }
     validity_date { Faker::Date.forward(days: 30) }
-    operator { Faker::Name.name }
+    operator { Faker::Name.name[0...20] }
 
     trait :inactive do
       status { "inactive" }
