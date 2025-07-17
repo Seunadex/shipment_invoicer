@@ -71,7 +71,7 @@ FactoryBot.define do
     clearing_doc { nil }
     email_address { Faker::Internet.email }
     type_depotage { "standard" }
-    accord_client { [true, false].sample }
+    accord_client { [ true, false ].sample }
     comment { Faker::Lorem.paragraph(sentence_count: 2) }
     reference { Faker::Alphanumeric.alphanumeric(number: 30).upcase }
   end
