@@ -1,4 +1,3 @@
-
 # Shipment Invoicer
 
 A small Rails service to simulate invoice generation for overdue Bill of Ladings (BLs) in a legacy shipping database.
@@ -14,19 +13,14 @@ A small Rails service to simulate invoice generation for overdue Bill of Ladings
    cd shipment_invoicer
    ```
 
-2. **Install dependencies**
+2. **Run setup script**
 
    ```bash
-   bundle install
+   bin/setup
    ```
 
-3. **Set up the database**
+3. **Run the server**
 
-   ```bash
-   rails db:create db:migrate db:seed
-   ```
-
-4. **Run the server**
    ```bash
    rails server
    ```
@@ -77,25 +71,27 @@ curl -X POST http://localhost:3000/api/invoices/generate_overdue
 ### View overdue invoices in browser (JSON):
 
 ```
-http://localhost:3000/invoices/overdue
+http://localhost:3000/invoices/overdue.json
 ```
 
 ### Or using curl:
 
 ```bash
-curl -X http://localhost:3000/invoices/overdue.json
+curl http://localhost:3000/invoices/overdue.json
 ```
 
 ---
 
 ## 💡 Design Decisions & Assumptions
 
-- **Legacy Schema Adaptation:** The system adapts a legacy French-named MySQL schema into idiomatic Rails models. Fields like `numero_bl` were renamed to `number`, `id_client` to `customer_id` and relationships were inferred using best practices.
+- **Legacy Schema Adaptation:** The system adapts a legacy French-named MySQL schema into idiomatic Rails models. Fields like `numero_bl` were renamed to `number`, `id_client` to `customer_id`, and relationships were inferred and enforced via associations and foreign keys.
 
-- **Invoice Generation Logic:** A service object (`Demurrage::InvoiceGenerator`) checks for BLs that became overdue today and generates invoices at a flat rate of $80 per container per day. Container count is calculated as the sum of all `quantity_*` columns on the bill_of_ladding.
+- **Invoice Generation Logic:** A service object (`Demurrage::InvoiceGenerator`) checks for BLs that became overdue today and generates invoices at a flat rate of $80 per container per overdue day. Container count is computed as the sum of all six legacy `quantity_*` fields on the Bill of Lading.
 
-- **Skip Logic:** BLs with any unpaid (status: `"init"`) invoices are skipped to prevent duplicates. Paid invoices are ignored.
+- **Skip Logic for Open Invoices:** BLs are skipped if they already have any unpaid (status: `"init"`) invoices. This ensures that only one open invoice exists per overdue BL at a time.
 
-- **API & View Separation:** Invoice generation is triggered via a JSON-only API endpoint, while overdue invoices can be viewed either as JSON. The API is namespaced under `/api/invoices`.
+- **Refund Guard Logic:** BLs that are flagged as `blocked_for_refund`, `exempt` or have associated refund requests (`remboursements`) with active statuses are excluded from invoicing. Only fully cancelled or absent refunds qualify.
+
+- **Factory & Test Constraints:** FactoryBot and Faker are used in specs with character limits enforced to avoid validation errors (e.g. trimming names to ≤ 20 characters).
 
 ---
