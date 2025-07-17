@@ -8,7 +8,7 @@ module Demurrage
       return invoices if overdue_bills.empty?
 
       overdue_bills.each do |bl|
-        next unless bl.refundable?
+        next unless bl.eligible_for_invoice?
         next if bl.invoices.unpaid.exists?
 
         container_count = bl.container_count
@@ -17,18 +17,7 @@ module Demurrage
         amount = container_count * DEMURRAGE_RATE
         next if amount <= 0
 
-        invoice = Invoice.create!(
-          reference: generate_reference,
-          number: bl.number,
-          client_code: bl.customer.client_code,
-          client_name: bl.customer.name,
-          amount: amount,
-          original_amount: amount,
-          currency: "XOF",
-          status: "init",
-          invoice_date: Date.current,
-          user_id: 1
-        )
+        invoice = create_invoice_for(bl, amount)
 
         invoices << invoice
       end
@@ -43,6 +32,21 @@ module Demurrage
 
     def generate_reference
       "INV#{SecureRandom.hex(2).upcase}"
+    end
+
+    def create_invoice_for(bill_of_lading, amount)
+      Invoice.create!(
+        reference: generate_reference,
+        number: bill_of_lading.number,
+        client_code: bill_of_lading.customer.client_code,
+        client_name: bill_of_lading.customer.name,
+        amount: amount,
+        original_amount: amount,
+        currency: "XOF",
+        status: "init",
+        invoice_date: Date.current,
+        user_id: 1
+      )
     end
   end
 end

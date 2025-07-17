@@ -74,7 +74,7 @@ class BillOfLading < ApplicationRecord
     end
   end
 
-  def refundable?
+  def eligible_for_invoice?
     return false if exempt || blocked_for_refund
 
     return true if refund_requests.none?
