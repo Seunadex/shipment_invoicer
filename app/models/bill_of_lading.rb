@@ -62,7 +62,7 @@ class BillOfLading < ApplicationRecord
   validates :consignee_name, length: { maximum: 60 }
   validates :arrival_date, presence: true
 
-  enum status: { pending: 0, cleared: 1 }
+  enum :status, { pending: 0, cleared: 1 }
 
   scope :overdue_today, -> {
     where("DATE(arrival_date + INTERVAL freetime DAY) = ?", Date.current)

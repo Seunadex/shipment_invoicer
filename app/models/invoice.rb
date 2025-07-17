@@ -36,7 +36,7 @@ class Invoice < ApplicationRecord
   validates :status, presence: true, length: { maximum: 10 }
   validates :invoice_date, presence: true
 
-  enum status: { init: "init", paid: "paid" }
+  enum :status, { init: "init", paid: "paid" }
 
   scope :unpaid, -> { where(status: "init") }
   scope :overdue, -> {
